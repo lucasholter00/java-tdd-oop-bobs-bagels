@@ -36,9 +36,16 @@ public class StockTest {
     }
 
     @Test
-    public void testGetItem(){
+    public void testGetItemExists(){
         Stock stock = new Stock();
 
         Assertions.assertEquals("BGLO", stock.getItem("BGLO").getSku());
+    }
+
+    @Test
+    public void testGetItemCodeDoesNotExist(){
+        Stock stock = new Stock();
+
+        Assertions.assertNull(stock.getItem("test").getSku());
     }
 }
