@@ -46,6 +46,6 @@ public class StockTest {
     public void testGetItemCodeDoesNotExist(){
         Stock stock = new Stock();
 
-        Assertions.assertNull(stock.getItem("test").getSku());
+        Assertions.assertNull(stock.getItem("test"));
     }
 }
