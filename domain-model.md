@@ -10,7 +10,8 @@
 |        |                    | getPrice(String sku) | Exists                       | int        |
 |        |                    |                      | Doesn't exist                | -1         |
 |        |                    | getFillings()        |                              | List<Item> |
-|        |                    |                      |                              |            |
+|        |                    | getItem(String sku)  | Exists                       | Item       |
+|        |                    |                      | Does not exist               | null       |
 | Item   | String sku         |                      |                              |            |
 |        | float price        |                      |                              |            |
 |        | String name        |                      |                              |            |

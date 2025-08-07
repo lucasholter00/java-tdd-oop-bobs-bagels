@@ -34,4 +34,11 @@ public class StockTest {
             Assertions.assertEquals("Filling", filling.getName());
         }
     }
+
+    @Test
+    public void testGetItem(){
+        Stock stock = new Stock();
+
+        Assertions.assertEquals("BGLO", stock.getItem("BGLO").getSku());
+    }
 }
