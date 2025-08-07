@@ -3,6 +3,8 @@ package com.booleanuk.core;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 public class StockTest {
 
     @Test
@@ -13,6 +15,7 @@ public class StockTest {
         Assertions.assertEquals(1.29f, stock.getPrice("COFL"));
     }
 
+    @Test
     public void testGetPriceInvalidCode(){
         Stock stock = new Stock();
 
@@ -20,6 +23,7 @@ public class StockTest {
         Assertions.assertEquals(-1, stock.getPrice("\n"));
     }
 
+    @Test
     public void testGetFillings(){
         Stock stock = new Stock();
 
@@ -27,7 +31,7 @@ public class StockTest {
         Assertions.assertEquals(6, fillings.size());
 
         for(Item filling : fillings){
-            Assertions.assertEquals("Filling", filling.getVariant());
+            Assertions.assertEquals("Filling", filling.getName());
         }
     }
 }
