@@ -15,6 +15,10 @@ public class BagelTest {
         bagel.addFilling(filling);
 
         Assertions.assertEquals(1, bagel.getFillings().size());
+
+        bagel.removeFilling("Bacon");
+
+        Assertions.assertTrue(bagel.getFillings().isEmpty());
     }
 
 }
