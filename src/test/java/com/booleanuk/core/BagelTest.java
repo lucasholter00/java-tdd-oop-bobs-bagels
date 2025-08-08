@@ -8,7 +8,7 @@ public class BagelTest {
     @Test
     public void testAddAndRemoveFilling(){
         Bagel bagel = new Bagel("BGLO", 0.49f, "Onion");
-        Item filling = new Filling("FILB", 0.12f, "Bacon");
+        Filling filling = new Filling("FILB", 0.12f, "Bacon");
 
         Assertions.assertTrue(bagel.getFillings().isEmpty());
 
