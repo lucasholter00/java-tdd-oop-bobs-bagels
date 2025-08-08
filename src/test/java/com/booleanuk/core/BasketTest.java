@@ -44,18 +44,18 @@ public class BasketTest {
         Basket basket = new Basket(3);
         basket.add("BGLO");
 
-        Assertions.assertTrue(basket.remove("test"));
-        Assertions.assertEquals(1, basket.getItems().size().size());
+        Assertions.assertFalse(basket.remove("test"));
+        Assertions.assertEquals(1, basket.getItems().size());
     }
 
     @Test
     public void testGetTotalCostItemsPresent(){
         Basket basket = new Basket(3);
         basket.add("BGLO");
-        Assertions.assertEquals(0.49, basket.getTotalCost());
+        Assertions.assertEquals(0.49, basket.getTotalCost(), 0.0001f);
 
         basket.add("BGLO");
-        Assertions.assertEquals(0.98, basket.getTotalCost());
+        Assertions.assertEquals(0.98, basket.getTotalCost(), 0.0001f);
     }
 
     @Test
