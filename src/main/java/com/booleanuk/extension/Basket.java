@@ -1,9 +1,6 @@
 package com.booleanuk.extension;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Basket {
     private List<Item> items;
@@ -58,9 +55,6 @@ public class Basket {
         return acc;
     }
 
-    public boolean checkForTwelve(Map<String, Integer> itemCount){
-
-    }
 
     public float priceWithDiscount(){
         Map<String, Integer> itemCount = new HashMap<>();
@@ -69,6 +63,45 @@ public class Basket {
 
             itemCount.putIfAbsent(sku, 0);
             itemCount.put(sku, itemCount.get(sku)+1);
+
+            if(item instanceof Bagel){
+                Bagel bagel = (Bagel) item;
+                for(Filling filling : bagel.getFillings()){
+                    sku = filling.getSku();
+                    itemCount.putIfAbsent(sku, 0);
+                    itemCount.put(sku, itemCount.get(sku)+1);
+                }
+            }
         }
+
+        Set<Map.Entry<String, Integer>> itemCountVals = itemCount.entrySet();
+
+        float acc = 0;
+        System.out.println(itemCount);
+        for(Map.Entry<String, Integer> entry : itemCountVals){
+            String key = entry.getKey();
+            Integer val = entry.getValue();
+
+            while (key.toLowerCase().contains("bgl") && val >= 12) {
+                acc += 3.99f;
+                val -= 12;
+                entry.setValue(val);
+            }
+
+            while (key.toLowerCase().contains("bgl") && val >= 6) {
+                acc += 2.49f;
+                val -= 6;
+                entry.setValue(val);
+            }
+
+            while(val > 0) {
+                acc += stock.getPrice(key);
+                val -= 1;
+                entry.setValue(val);
+            }
+            System.out.println(key);
+            System.out.println(acc);
+        }
+        return acc;
     }
 }
