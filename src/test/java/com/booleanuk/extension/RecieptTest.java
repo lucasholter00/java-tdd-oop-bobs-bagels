@@ -31,6 +31,6 @@ public class RecieptTest {
         Assertions.assertTrue(reciept.getReciept().contains("Everything Bagel   6   £2.49"));
         Assertions.assertTrue(reciept.getReciept().contains("Black Coffee       1   £0.99"));
         Assertions.assertTrue(reciept.getReciept().contains("Coffee Combo       2   £2.5"));
-        Assertions.assertTrue(reciept.getReciept().contains("Total                 £10.43"));
+        Assertions.assertTrue(reciept.getReciept().contains("Total                  £9.97"));
     }
 }

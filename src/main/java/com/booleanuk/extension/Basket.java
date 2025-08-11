@@ -5,22 +5,21 @@ import java.util.*;
 public class Basket {
     private List<Item> items;
     private int capacity;
-    //private Reciept reciept;
     static private int stdCapacity = 3;
     static private Stock stock = new Stock();
 
     public Basket(){
         this.capacity = stdCapacity;
+        this.initAttributes();
     }
 
     public Basket(int capacity){
         this.capacity = capacity;
-        initAttributes();
+        this.initAttributes();
     }
 
     private void initAttributes(){
         items = new ArrayList<>();
-        //this.reciept = new Reciept(items, stock);
     }
 
     public List<Item> getItems(){
@@ -80,48 +79,93 @@ public class Basket {
         return itemCount;
     }
 
-    public float priceWithDiscount(){
+    public void updatePriceInfo(){
+        //this.priceInfo.clear();
 
         Map<String, Integer> itemCount = countItems();
 
-        Set<Map.Entry<String, Integer>> itemCountVals = itemCount.entrySet();
+    }
 
-        float acc = 0;
-        System.out.println(itemCount);
-        for(Map.Entry<String, Integer> entry : itemCountVals){
+    public List<PriceInfo> getPriceInfo(){
+        Map<String, Integer> inputMap = this.countItems();
+        List<PriceInfo> infos = new ArrayList<>();
+
+        Set<Map.Entry<String, Integer>> entries = inputMap.entrySet();
+
+        for(Map.Entry<String, Integer> entry : entries) {
+
+            Item item = stock.getItem(entry.getKey());
+            String name = item.getVariant() + " " + item.getName();
+
+            PriceInfo currInfo = new PriceInfo(name, 0, 0, 0);
+
+
             String key = entry.getKey();
             Integer val = entry.getValue();
-
             while (key.toLowerCase().contains("bgl") && val >= 12) {
-                acc += 3.99f;
+                currInfo.incCost(3.99f);
+                currInfo.incCount(12);
+                currInfo.incDiscount(stock.getPrice(key) * 12 - 3.99f);
                 val -= 12;
                 entry.setValue(val);
             }
 
             while (key.toLowerCase().contains("bgl") && val >= 6) {
-                acc += 2.49f;
+                currInfo.incCost(2.49f);
+                currInfo.incCount(6);
+                currInfo.incDiscount(stock.getPrice(key) * 12 - 2.49f);
                 val -= 6;
                 entry.setValue(val);
             }
 
-            while(val > 0) {
-                if(key.toLowerCase().contains("bgl")) {
-                    Map.Entry<String, Integer> coffee = findCoffee(itemCountVals);
-                    if(coffee != null){
-                        coffee.setValue(coffee.getValue()-1);
+            while (val > 0) {
+                if (key.toLowerCase().contains("bgl")) {
+                    Map.Entry<String, Integer> coffee = findCoffee(entries);
+                    if (coffee != null) {
+                        coffee.setValue(coffee.getValue() - 1);
                         val -= 1;
                         entry.setValue(val);
-                        acc += 1.25f;
+
+                        PriceInfo coffeeCombo = getPriceInfoByName(infos, "Coffee Combo");
+                        if(coffeeCombo == null){
+                            coffeeCombo = new PriceInfo("Coffee Combo", 0, 0, 0);
+                            infos.add(coffeeCombo);
+                        }
+
+                        coffeeCombo.incCost(1.25f);
+                        coffeeCombo.incCount(1);
+                        float discount = stock.getPrice(coffee.getKey()) + stock.getPrice(key) - 1.25f;
+                        coffeeCombo.incDiscount(discount);
                         continue; //Used now for simplicity, no good though
                     }
                 }
-                acc += stock.getPrice(key);
+                currInfo.incCost(stock.getPrice(key));
+                currInfo.incCount(1);
                 val -= 1;
                 entry.setValue(val);
             }
-            System.out.println(key);
-            System.out.println(acc);
+            if(currInfo.getCount() > 0) {
+                infos.add(currInfo);
+            }
+        }
+        return infos;
+    }
 
+    public PriceInfo getPriceInfoByName(List<PriceInfo> entries,String name){
+        for(PriceInfo entry : entries){
+            if(entry.getName().equals(name)){
+                return entry;
+            }
+        }
+        return null;
+    }
+
+    public float priceWithDiscount(){
+
+        List<PriceInfo> priceInfos = getPriceInfo();
+        float acc = 0;
+        for(PriceInfo info : priceInfos){
+            acc += info.getCost();
         }
         return acc;
     }
