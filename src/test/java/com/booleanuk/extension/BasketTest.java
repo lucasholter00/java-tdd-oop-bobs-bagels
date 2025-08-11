@@ -78,8 +78,16 @@ public class BasketTest {
         Assertions.assertTrue(addMult(basket, "BGLO", 2));
         Assertions.assertTrue(addMult(basket, "BGLP", 12));
         Assertions.assertTrue(addMult(basket, "BGLE", 6));
-        Assertions.assertTrue(addMult(basket, "COFB", 2));
+        Assertions.assertTrue(addMult(basket, "COFB", 3));
 
-        Assertions.assertEquals(10.43, basket.priceWithDiscount());
+        float delta = 0.001f;
+
+        Assertions.assertEquals(9.97, basket.priceWithDiscount(), delta);
+
+        basket = new Basket(50);
+
+        Assertions.assertTrue(addMult(basket, "BGLP", 16));
+        Assertions.assertEquals(5.55, basket.priceWithDiscount(), delta);
+
     }
 }
