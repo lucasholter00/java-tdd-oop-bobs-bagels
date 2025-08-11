@@ -112,7 +112,7 @@ public class Basket {
                         val -= 1;
                         entry.setValue(val);
                         acc += 1.25f;
-                        continue;
+                        continue; //Used now for simplicity, no good though
                     }
                 }
                 acc += stock.getPrice(key);
