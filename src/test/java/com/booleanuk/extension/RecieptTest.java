@@ -22,6 +22,8 @@ public class RecieptTest {
         addMult(basket, "BGLE", 6);
         addMult(basket, "COFB", 3);
 
+        Reciept reciept = new Reciept(basket.getItems());
+
         Assertions.assertEquals("    ~~~ Bob's Bagels ~~~\n" +
                 "\n" +
                 "    2021-03-16 21:38:44\n" +
@@ -37,6 +39,6 @@ public class RecieptTest {
                 "Total                 £10.43\n" +
                 "\n" +
                 "        Thank you\n" +
-                "      for your order!", basket.getReciept());
+                "      for your order!", reciept.getReciept());
     }
 }
