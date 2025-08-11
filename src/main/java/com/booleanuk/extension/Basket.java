@@ -1,7 +1,9 @@
-package com.booleanuk.core;
+package com.booleanuk.extension;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Basket {
     private List<Item> items;
@@ -54,5 +56,19 @@ public class Basket {
             acc = acc + curr.getPrice();
         }
         return acc;
+    }
+
+    public boolean checkForTwelve(Map<String, Integer> itemCount){
+
+    }
+
+    public float priceWithDiscount(){
+        Map<String, Integer> itemCount = new HashMap<>();
+        for(Item item : this.items){
+            String sku = item.getSku();
+
+            itemCount.putIfAbsent(sku, 0);
+            itemCount.put(sku, itemCount.get(sku)+1);
+        }
     }
 }
