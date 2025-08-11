@@ -3,6 +3,8 @@ package com.booleanuk.extension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 public class RecieptTest {
 
     public boolean addMult(Basket basket, String sku, int times){
@@ -15,14 +17,17 @@ public class RecieptTest {
 
     @Test
     public void testPrintRecieptNormal(){
-        Basket basket = new Basket();
 
-        addMult(basket, "BGLO", 2);
-        addMult(basket, "BGLP", 12);
-        addMult(basket, "BGLE", 6);
-        addMult(basket, "COFB", 3);
+        Stock stock = new Stock();
 
-        Reciept reciept = new Reciept(basket.getItems());
+        Map<String, Integer> map = Map.of(
+                "BGLO", 2,
+                "BGLP", 12,
+                "BGLE", 6,
+                "COFB", 3
+        );
+
+        Reciept reciept = new Reciept(map, stock);
 
         Assertions.assertEquals("    ~~~ Bob's Bagels ~~~\n" +
                 "\n" +
