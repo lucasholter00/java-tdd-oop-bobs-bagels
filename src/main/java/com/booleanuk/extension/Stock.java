@@ -48,8 +48,21 @@ public class Stock {
     public Item getItem(String sku){
         for(Item item : this.stock){
             if(item.getSku().equals(sku)){
-                return item;
+                return copyItem(item);
             }
+        }
+        return null;
+    }
+
+    private Item copyItem(Item item){
+        if(item instanceof Filling) {
+            return new Filling(item.getSku(), item.getPrice(), item.getVariant());
+        }
+        if(item instanceof Bagel) {
+            return new Bagel(item.getSku(), item.getPrice(), item.getVariant());
+        }
+        if(item instanceof Coffee) {
+            return new Coffee(item.getSku(), item.getPrice(), item.getVariant());
         }
         return null;
     }

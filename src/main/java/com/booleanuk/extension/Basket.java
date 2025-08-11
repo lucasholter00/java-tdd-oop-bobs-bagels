@@ -5,17 +5,22 @@ import java.util.*;
 public class Basket {
     private List<Item> items;
     private int capacity;
+    //private Reciept reciept;
     static private int stdCapacity = 3;
     static private Stock stock = new Stock();
 
     public Basket(){
         this.capacity = stdCapacity;
-        items = new ArrayList<>();
     }
 
     public Basket(int capacity){
         this.capacity = capacity;
+        initAttributes();
+    }
+
+    private void initAttributes(){
         items = new ArrayList<>();
+        //this.reciept = new Reciept(items, stock);
     }
 
     public List<Item> getItems(){
@@ -55,8 +60,7 @@ public class Basket {
         return acc;
     }
 
-
-    public float priceWithDiscount(){
+    private Map<String, Integer> countItems(){
         Map<String, Integer> itemCount = new HashMap<>();
         for(Item item : this.items){
             String sku = item.getSku();
@@ -73,6 +77,12 @@ public class Basket {
                 }
             }
         }
+        return itemCount;
+    }
+
+    public float priceWithDiscount(){
+
+        Map<String, Integer> itemCount = countItems();
 
         Set<Map.Entry<String, Integer>> itemCountVals = itemCount.entrySet();
 
@@ -101,7 +111,11 @@ public class Basket {
             }
             System.out.println(key);
             System.out.println(acc);
+
         }
         return acc;
+    }
+    public String getReciept(){
+        return "";
     }
 }
