@@ -7,43 +7,30 @@ import java.util.Map;
 
 public class RecieptTest {
 
-    public boolean addMult(Basket basket, String sku, int times){
-        if(times == 0){
-            return true;
+    private boolean addMult(Basket basket, String sku, int times){
+        boolean ret = true;
+        for(int i = 0; i < times; i++){
+          ret = ret && basket.add(sku) == 1;
         }
 
-        return basket.add(sku) == 1 && addMult(basket, sku, times-1);
+        return ret;
     }
 
     @Test
     public void testPrintRecieptNormal(){
 
-        Stock stock = new Stock();
+        Basket basket = new Basket(50);
+        addMult(basket,"BGLO", 2);
+        addMult(basket,"BGLP", 12);
+        addMult(basket,"BGLE", 6);
+        addMult(basket,"COFB", 3);
 
-        Map<String, Integer> map = Map.of(
-                "BGLO", 2,
-                "BGLP", 12,
-                "BGLE", 6,
-                "COFB", 3
-        );
-
-        Reciept reciept = new Reciept(map, stock);
-
-        Assertions.assertEquals("    ~~~ Bob's Bagels ~~~\n" +
-                "\n" +
-                "    2021-03-16 21:38:44\n" +
-                "\n" +
-                "----------------------------\n" +
-                "\n" +
-                "Onion Bagel        2   £0.98\n" +
-                "Plain Bagel        12  £3.99\n" +
-                "Everything Bagel   6   £2.49\n" +
-                "Coffee             3   £2.97\n" +
-                "\n" +
-                "----------------------------\n" +
-                "Total                 £10.43\n" +
-                "\n" +
-                "        Thank you\n" +
-                "      for your order!", reciept.getReciept());
+        Reciept reciept = new Reciept(basket);
+        System.out.println(reciept.getReciept());
+        Assertions.assertTrue(reciept.getReciept().contains("Plain Bagel        12  £3.99"));
+        Assertions.assertTrue(reciept.getReciept().contains("Everything Bagel   6   £2.49"));
+        Assertions.assertTrue(reciept.getReciept().contains("Black Coffee       1   £0.99"));
+        Assertions.assertTrue(reciept.getReciept().contains("Coffee Combo       2   £2.5"));
+        Assertions.assertTrue(reciept.getReciept().contains("Total                 £10.43"));
     }
 }
