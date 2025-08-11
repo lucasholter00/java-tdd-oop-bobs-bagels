@@ -105,6 +105,16 @@ public class Basket {
             }
 
             while(val > 0) {
+                if(key.toLowerCase().contains("bgl")) {
+                    Map.Entry<String, Integer> coffee = findCoffee(itemCountVals);
+                    if(coffee != null){
+                        coffee.setValue(coffee.getValue()-1);
+                        val -= 1;
+                        entry.setValue(val);
+                        acc += 1.25f;
+                        continue;
+                    }
+                }
                 acc += stock.getPrice(key);
                 val -= 1;
                 entry.setValue(val);
@@ -115,6 +125,18 @@ public class Basket {
         }
         return acc;
     }
+
+    private Map.Entry<String, Integer> findCoffee(Set<Map.Entry<String, Integer>> itemCount){
+        for(Map.Entry<String, Integer> entry : itemCount){
+            if(entry.getKey().toLowerCase().contains("cof") && entry.getValue() > 0){
+                return entry;
+            }
+        }
+        return null;
+    }
+
+
+
     public String getReciept(){
         return "";
     }
