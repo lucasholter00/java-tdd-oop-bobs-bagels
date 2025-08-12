@@ -47,7 +47,7 @@ public class RecieptTest {
         System.out.println(reciept.getDiscountedReciept());
         Assertions.assertTrue(reciept.getDiscountedReciept().contains("Plain Bagel        12  £3.99\n" +
                                                                       "                     (-£0.69)"));
-        Assertions.assertTrue(reciept.getDiscontedReciept().contains("Everything Bagel   6   £2.49\n" +
+        Assertions.assertTrue(reciept.getDiscountedReciept().contains("Everything Bagel   6   £2.49\n" +
                                                                      "                     (-£0.45)"));
         Assertions.assertTrue(reciept.getDiscountedReciept().contains("Black Coffee       1   £0.99"));
         Assertions.assertTrue(reciept.getDiscountedReciept().contains("Coffee Combo       2   £2.5"));

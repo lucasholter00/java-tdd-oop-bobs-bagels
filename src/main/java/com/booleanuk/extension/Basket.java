@@ -113,7 +113,7 @@ public class Basket {
             while (key.toLowerCase().contains("bgl") && val >= 6) {
                 currInfo.incCost(2.49f);
                 currInfo.incCount(6);
-                currInfo.incDiscount(stock.getPrice(key) * 12 - 2.49f);
+                currInfo.incDiscount(stock.getPrice(key) * 6 - 2.49f);
                 val -= 6;
                 entry.setValue(val);
             }

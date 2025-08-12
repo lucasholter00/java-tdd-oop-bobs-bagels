@@ -15,6 +15,13 @@ public class Reciept {
     }
 
     public String getReciept(){
+        return buildReciept(false);
+    }
+    public String getDiscountedReciept(){
+        return buildReciept(true);
+    }
+
+    public String buildReciept(boolean discounted){
         StringBuilder sb = new StringBuilder();
 
         sb.append("    ~~~ Bob's Bagels ~~~\n");
@@ -32,6 +39,7 @@ public class Reciept {
         int priceStart = 4;
         List<PriceInfo> priceInfo = basket.getPriceInfo();
         float acc = 0;
+        float discountedAcc = 0;
         for(PriceInfo curr : priceInfo){
             sb.append(curr.getName());
             sb.append(blankSpace(curr.getName(), countStart));
@@ -41,12 +49,25 @@ public class Reciept {
             sb.append(curr.getCost());
             sb.append("\n");
             acc += curr.getCost();
+            if(discounted && curr.getDiscount() > 0){
+                sb.append(blankSpace("", countStart+priceStart-2));
+                sb.append("(-£");
+                sb.append(String.format("%.2f",curr.getDiscount()));
+                sb.append(")\n");
+                discountedAcc += curr.getDiscount();
+            }
         }
         sb.append("\n");
         sb.append("----------------------------\n");
         sb.append("Total");
         sb.append(blankSpace("Total", countStart+priceStart));
         sb.append(String.format( "£%.2f", acc));
+        if(discounted && discountedAcc > 0){
+            sb.append("\n");
+            sb.append("You saved a total of £");
+            sb.append(String.format("%.2f\n", discountedAcc));
+            sb.append("       on this shop");
+        }
 
         return sb.toString();
     }
